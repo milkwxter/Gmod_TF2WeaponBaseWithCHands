@@ -4,7 +4,7 @@ SWEP.Base = "weapon_tf2milkbase"
 
 SWEP.PrintName = "Pistol"
 SWEP.Purpose = "A standard pistol."
-SWEP.Category = "Milkwater"
+SWEP.Category = "TF2 SWEPs"
 SWEP.SubCatType = { "Scout", "Engineer" }
 SWEP.Spawnable = true
 SWEP.IconOverride = "weapons/mb_pistol.png"

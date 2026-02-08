@@ -2,15 +2,15 @@ if SERVER then AddCSLuaFile() end
 
 SWEP.Base = "weapon_tf2milkbase"
 
-SWEP.PrintName = "Wrench"
-SWEP.Purpose = "A standard wrench."
+SWEP.PrintName = "Shovel"
+SWEP.Purpose = "A standard shovel."
 SWEP.Category = "TF2 SWEPs"
-SWEP.SubCatType = { "Engineer" }
+SWEP.SubCatType = { "Soldier" }
 SWEP.Spawnable = true
-SWEP.IconOverride = "weapons/mb_wrench.png"
+SWEP.IconOverride = "weapons/mb_shovel.png"
 
-SWEP.ViewModel = "models/v_wrench_engineer.mdl"
-SWEP.WorldModel = "models/weapons/c_models/c_wrench/c_wrench.mdl"
+SWEP.ViewModel = "models/v_shovel_soldier.mdl"
+SWEP.WorldModel = "models/weapons/c_models/c_shovel/c_shovel.mdl"
 
 SWEP.HandOffset_Pos = Vector(3, -1, -1) -- forward, right, up
 SWEP.HandOffset_Ang = Angle(0, 0, 180) -- pitch, yaw, roll

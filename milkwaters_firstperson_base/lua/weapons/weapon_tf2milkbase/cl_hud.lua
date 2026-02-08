@@ -5,14 +5,14 @@ if CLIENT then
 	end)
 
 	-- helper to see if using my weapons
-	local function Using3PBase(ply)
+	local function UsingMyBase(ply)
 		if not IsValid(ply) then return false end
 		local wep = ply:GetActiveWeapon()
 		return IsValid(wep) and wep.Base == "weapon_tf2milkbase"
 	end
 
 	hook.Add("HUDShouldDraw", "HideDefaultHealth", function(name)
-		if not Using3PBase(LocalPlayer()) then
+		if not UsingMyBase(LocalPlayer()) then
 			return true
 		end
 		
@@ -28,48 +28,18 @@ if CLIENT then
 		local x = ScrW() * 0.5
 		local y = ScrH() * 0.5
 
-		local endTime = LocalPlayer().NamePopupEndTime or 0
-		local now = CurTime()
-
 		-- weapon name popup + desc
-		if now < endTime then
-			local duration = endTime - (endTime - 2)
-			local remaining = endTime - now
-			local frac = math.Clamp(remaining / duration, 0, 1)
-			local alpha = frac * 255
+		self:DrawNamePopup(x, y)
 
-			local baseX = x
-			local baseY = y * 0.5
-			local spacing = 40
-
-			draw.SimpleTextOutlined(
-				self.PrintName,
-				"MW_TF2Damage",
-				baseX,
-				baseY,
-				Color(247, 229, 198, alpha),
-				TEXT_ALIGN_CENTER,
-				TEXT_ALIGN_CENTER,
-				2,
-				Color(55, 51, 49, alpha)
-			)
-
-			draw.SimpleTextOutlined(
-				self.Purpose,
-				"MW_TF2Damage_Small",
-				baseX,
-				baseY + spacing,
-				Color(247, 229, 198, alpha),
-				TEXT_ALIGN_CENTER,
-				TEXT_ALIGN_CENTER,
-				1,
-				Color(55, 51, 49, alpha)
-			)
-		end
-
-		-- ammo + crosshair display
-		self:DrawCrosshairHUD(x, y)
+		-- ammo display
 		self:DrawAmmoArc(x + 50, y)
+		
+		-- crosshair or reload display
+		if self:GetReloading() then
+			self:DrawReloadCircle(x, y)
+		else
+			self:DrawCrosshairHUD(x, y)
+		end
 		
 		-- health display
 		self:DrawHealthHUD(400, ScrH() - 200)
@@ -311,5 +281,94 @@ if CLIENT then
 			2,
 			Color(55, 51, 49, alpha)
 		)
+	end
+	
+	function SWEP:DrawNamePopup(cx, cy)
+        local endTime = LocalPlayer().NamePopupEndTime or 0
+        local now = CurTime()
+        if now >= endTime then return end
+
+        local duration = 2
+        local remaining = endTime - now
+        local frac = math.Clamp(remaining / duration, 0, 1)
+        local alpha = frac * 255
+
+        local baseX = cx
+        local baseY = cy * 0.5
+        local spacing = 40
+
+        local mainCol = Color(247, 229, 198, alpha)
+        local outline = Color(55, 51, 49, alpha)
+
+        draw.SimpleTextOutlined(
+            self.PrintName,
+            "MW_TF2Damage",
+            baseX, baseY,
+            mainCol,
+            TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER,
+            2, outline
+        )
+
+        draw.SimpleTextOutlined(
+            self.Purpose,
+            "MW_TF2Damage_Small",
+            baseX, baseY + spacing,
+            mainCol,
+            TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER,
+            1, outline
+        )
+    end
+	
+	function SWEP:GetReloadProgress()
+		if not self:GetReloading() then return 0 end
+
+		local start = self:GetReloadStartTime() or 0
+		local finish = self:GetReloadEndTime() or 0
+		local now = CurTime()
+
+		if start <= 0 or finish <= start then return 0 end
+		if now >= finish then return 1 end
+
+		return math.Clamp((now - start) / (finish - start), 0, 1)
+	end
+
+	function SWEP:DrawReloadCircle(x, y)
+		local prog = self:GetReloadProgress()
+		if prog <= 0 then return end
+
+		local radius = 15
+		local thickness = 15
+		local segments = 32
+
+		surface.SetDrawColor(247, 229, 198, 220)
+		draw.NoTexture()
+
+		local startAng = -90
+		local endAng = startAng + (prog * 360)
+
+		for i = 0, segments - 1 do
+			local t0 = i / segments
+			local t1 = (i + 1) / segments
+
+			local a0 = math.rad(startAng + t0 * (endAng - startAng))
+			local a1 = math.rad(startAng + t1 * (endAng - startAng))
+
+			local ox0 = x + math.cos(a0) * radius
+			local oy0 = y + math.sin(a0) * radius
+			local ox1 = x + math.cos(a1) * radius
+			local oy1 = y + math.sin(a1) * radius
+
+			local ix0 = x + math.cos(a0) * (radius - thickness)
+			local iy0 = y + math.sin(a0) * (radius - thickness)
+			local ix1 = x + math.cos(a1) * (radius - thickness)
+			local iy1 = y + math.sin(a1) * (radius - thickness)
+
+			surface.DrawPoly({
+				{ x = ox0, y = oy0 },
+				{ x = ox1, y = oy1 },
+				{ x = ix1, y = iy1 },
+				{ x = ix0, y = iy0 },
+			})
+		end
 	end
 end

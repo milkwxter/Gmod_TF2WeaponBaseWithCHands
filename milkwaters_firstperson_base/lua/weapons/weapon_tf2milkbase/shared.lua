@@ -45,7 +45,7 @@ PrecacheParticleSystem("muzzle_shotgun")
 PrecacheParticleSystem("muzzle_smg")
 
 SWEP.PrintName = "Base Weapon"
-SWEP.Category = "Milkwater"
+SWEP.Category = "TF2 SWEPs"
 SWEP.Spawnable = false
 SWEP.AdminSpawnable = true
 SWEP.DrawCrosshair = false
@@ -81,7 +81,7 @@ SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 3
 SWEP.Cone = 0.02
 
-SWEP.ReloadTime = 2.0
+SWEP.ShotgunReload = false
 SWEP.ReloadGesture = ACT_HL2MP_GESTURE_RELOAD_AR2
 
 SWEP.Projectile = false
@@ -116,9 +116,12 @@ SWEP.MeleeSwingSound = "weapons/cbar_miss1.wav"
 
 function SWEP:SetupDataTables()
     self:NetworkVar("Bool", 0, "Zoomed")
-	self:NetworkVar("Float", 0, "ZoomChargeProgress")
-	self:NetworkVar("Vector", 0, "ZoomDotPos")
-	self:NetworkVar("String", 0, "CurrentWorldModel")
+	self:NetworkVar("Float", 1, "ZoomChargeProgress")
+	self:NetworkVar("Vector", 2, "ZoomDotPos")
+	self:NetworkVar("String", 3, "CurrentWorldModel")
+	self:NetworkVar("Float", 4, "ReloadStartTime")
+	self:NetworkVar("Float", 5, "ReloadEndTime")
+	self:NetworkVar("Bool", 6, "Reloading")
 end
 
 function SWEP:Initialize()
@@ -199,7 +202,7 @@ function SWEP:CanPrimaryAttack()
 	end
 	
 	-- you cant shoot and reload
-    if self.Reloading then return false end
+    if self:GetReloading() then return false end
 
     return true
 end
@@ -292,7 +295,6 @@ function SWEP:ShootBullet(dmg, num, cone)
 		effect:SetAttachment(attID)
 		util.Effect("milkwater_tracer", effect)
 
-
 		local hit = tr.Entity
 		
 		-- apply damage modifiers
@@ -332,11 +334,11 @@ end
 
 function SWEP:ShootProjectile()
     if not SERVER then return end
-
+	
     local owner = self:GetOwner()
     if not IsValid(owner) then return end
-
-    local pos = self:GetShootPos()
+	
+	local src = owner:EyePos()
 	local ang = owner:EyeAngles()
 
 	-- apply cone spread
@@ -345,13 +347,11 @@ function SWEP:ShootProjectile()
 		local rand = VectorRand():GetNormalized() * math.tan(cone)
 		ang = (ang:Forward() + rand):Angle()
 	end
-	
-	pos, blocked = self:ResolveMuzzleCollision(owner, pos)
 
     local ent = ents.Create(self.ProjectileClass)
     if not IsValid(ent) then return end
 
-    ent:SetPos(pos)
+    ent:SetPos(src)
     ent:SetAngles(ang)
     ent:SetOwner(owner)
 	
@@ -466,9 +466,11 @@ function SWEP:Think()
 	local owner = self:GetOwner()
 	if not IsValid(owner) then return end
 	
-    if self.Reloading and CurTime() >= self.ReloadEnd then
-        self:FinishReload()
-    end
+    if self.ShotgunReload then
+		self:ThinkShotgunReload()
+	else
+		self:ThinkMagazineReload()
+	end
 	
 	-- increment zoom charge
 	if self.ZoomCharge and self:GetZoomed() then

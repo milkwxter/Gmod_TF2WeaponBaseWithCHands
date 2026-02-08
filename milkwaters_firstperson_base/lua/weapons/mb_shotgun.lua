@@ -4,7 +4,7 @@ SWEP.Base = "weapon_tf2milkbase"
 
 SWEP.PrintName = "Shotgun"
 SWEP.Purpose = "A standard shotgun."
-SWEP.Category = "Milkwater"
+SWEP.Category = "TF2 SWEPs"
 SWEP.SubCatType = { "Soldier", "Heavy", "Pyro", "Engineer" }
 SWEP.Spawnable = true
 SWEP.IconOverride = "weapons/mb_shotgun.png"
@@ -33,3 +33,5 @@ SWEP.Primary.Damage = 6
 SWEP.Primary.NumShots = 10
 SWEP.Cone = 0.1
 SWEP.Primary.Recoil = 6
+
+SWEP.ShotgunReload = true
