@@ -29,13 +29,13 @@ SWEP.Primary.Ammo = "none"
 SWEP.PrimaryAnim = ACT_VM_HITCENTER
 
 SWEP.Primary.Automatic = true
-SWEP.Primary.FireDelay = 0.5
+SWEP.Primary.FireDelay = 0.8
 SWEP.Primary.Damage = 0
 SWEP.Primary.NumShots = 1
 SWEP.Cone = 0
 SWEP.Primary.Recoil = 1
 
 SWEP.Melee = true
-SWEP.MeleeDamage = 35
+SWEP.MeleeDamage = 65
 SWEP.MeleeRange = 70
 SWEP.MeleeDelay = 0.2
