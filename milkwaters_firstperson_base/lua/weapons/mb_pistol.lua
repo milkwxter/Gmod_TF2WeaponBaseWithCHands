@@ -8,6 +8,7 @@ SWEP.Category = "TF2 SWEPs"
 SWEP.SubCatType = { "Scout", "Engineer" }
 SWEP.Spawnable = true
 SWEP.IconOverride = "weapons/mb_pistol.png"
+SWEP.Slot = 1
 
 SWEP.ViewModel = "models/v_pistol_engineer.mdl"
 SWEP.WorldModel = "models/weapons/c_models/c_pistol/c_pistol.mdl"

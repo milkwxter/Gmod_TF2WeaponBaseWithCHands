@@ -2,25 +2,25 @@ if SERVER then AddCSLuaFile() end
 
 SWEP.Base = "weapon_tf2milkbase"
 
-SWEP.PrintName = "Shotgun"
+SWEP.PrintName = "Scattergun"
 SWEP.Purpose = "A standard shotgun."
 SWEP.Category = "TF2 SWEPs"
-SWEP.SubCatType = { "Soldier", "Heavy", "Pyro", "Engineer" }
+SWEP.SubCatType = { "Scout" }
 SWEP.Spawnable = true
-SWEP.IconOverride = "weapons/mb_shotgun.png"
+SWEP.IconOverride = "weapons/mb_scattergun.png"
 SWEP.Slot = 3
 
-SWEP.ViewModel = "models/v_shotgun_engineer.mdl"
-SWEP.WorldModel = "models/weapons/c_models/c_shotgun/c_shotgun.mdl"
+SWEP.ViewModel = "models/v_scattergun_scout.mdl"
+SWEP.WorldModel = "models/weapons/c_models/c_scattergun.mdl"
 
-SWEP.HandOffset_Pos = Vector(0, 0, 0) -- forward, right, up
+SWEP.HandOffset_Pos = Vector(6, -1, -2) -- forward, right, up
 SWEP.HandOffset_Ang = Angle(0, 0, 180) -- pitch, yaw, roll
 
-SWEP.MuzzleOffset_Pos = Vector(40, 6, -5) -- forward, right, up
+SWEP.MuzzleOffset_Pos = Vector(20, 0, 5) -- forward, right, up
 SWEP.MuzzleOffset_Ang = Angle(0, 0, 0) -- pitch, yaw, roll
 SWEP.MuzzleEffect = "muzzle_shotgun"
 
-SWEP.SoundShootPrimary = "weapons/shotgun_shoot.wav"
+SWEP.SoundShootPrimary = "weapons/scatter_gun_shoot.wav"
 SWEP.HoldType = "shotgun"
 SWEP.Casing = "ShotgunShellEject"
 

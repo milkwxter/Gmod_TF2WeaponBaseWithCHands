@@ -8,6 +8,7 @@ SWEP.Category = "TF2 SWEPs"
 SWEP.SubCatType = { "Soldier" }
 SWEP.Spawnable = true
 SWEP.IconOverride = "weapons/mb_rocket_launcher.png"
+SWEP.Slot = 4
 
 SWEP.ViewModel = "models/v_rocketlauncher_soldier.mdl"
 SWEP.WorldModel = "models/weapons/c_models/c_rocketlauncher/c_rocketlauncher.mdl"
