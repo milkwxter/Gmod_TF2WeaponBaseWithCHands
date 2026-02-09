@@ -32,7 +32,10 @@ function ENT:Initialize()
         local phys = self:GetPhysicsObject()
         if IsValid(phys) then
             phys:Wake()
-            phys:SetMass(2)
+            phys:SetMass(1)
+			
+			phys:SetBuoyancyRatio(0)
+			phys:EnableDrag(false)
         end
 
         self.Radius = 169

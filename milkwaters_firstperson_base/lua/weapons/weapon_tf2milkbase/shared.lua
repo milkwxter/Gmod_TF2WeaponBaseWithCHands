@@ -16,12 +16,12 @@ AddCSLuaFile("cl_hud.lua")
 AddCSLuaFile("cl_damage_sounds.lua")
 AddCSLuaFile("cl_pyrovision.lua")
 AddCSLuaFile("cl_sniper_dot.lua")
+AddCSLuaFile("cl_camera.lua")
 AddCSLuaFile("sh_render.lua")
 AddCSLuaFile("sh_sound.lua")
 AddCSLuaFile("sh_damage.lua")
 AddCSLuaFile("sh_reload.lua")
 AddCSLuaFile("sh_melee.lua")
-
 
 -- give clients certain files
 if CLIENT then
@@ -30,6 +30,7 @@ if CLIENT then
 	include("cl_damage_sounds.lua")
 	include("cl_pyrovision.lua")
 	include("cl_sniper_dot.lua")
+	include("cl_camera.lua")
 end
 
 -- rest of the files are for everyone
@@ -83,6 +84,7 @@ SWEP.Cone = 0.02
 
 SWEP.ShotgunReload = false
 SWEP.ReloadGesture = ACT_HL2MP_GESTURE_RELOAD_AR2
+SWEP.AutoReload = false
 
 SWEP.Projectile = false
 SWEP.ProjectileClass = ""
@@ -382,9 +384,6 @@ function SWEP:DoRecoil()
     local yaw = math.Rand(-0.25, 0.25) * r
     local pitch = r
 
-    -- camera punch
-    owner:ViewPunch(Angle(-pitch * 0.6, yaw * 0.4, 0))
-
     -- actual aim drift
     local ang = owner:EyeAngles()
     ang.p = ang.p - pitch * 0.12
@@ -472,8 +471,13 @@ function SWEP:Think()
 		self:ThinkMagazineReload()
 	end
 	
+	-- autoreload
+	if self.AutoReload then
+		self:Think_AutoReload()
+	end
+	
 	-- increment zoom charge
-	if self.ZoomCharge and self:GetZoomed() then
+	if self.ZoomCharge and self:GetZoomed() and self:Clip1() > 0 then
 		local target = self:GetZoomed() and 1 or 0
 		local cur = self:GetZoomChargeProgress()
 		local speed = FrameTime() * (1 / 3)
@@ -509,6 +513,29 @@ function SWEP:Think()
 			self:StopMuzzleEffect()
 		end
 	end
+end
+
+function SWEP:Think_AutoReload()
+    if self:GetReloading() then return end
+
+    local owner = self:GetOwner()
+    if not IsValid(owner) then return end
+
+    -- only when empty AND we have reserve ammo
+    if self:Clip1() <= 0 and owner:GetAmmoCount(self.Primary.Ammo) > 0 then
+        
+        -- wait until the weapon is allowed to fire again
+        if CurTime() < self:GetNextPrimaryFire() then
+            return
+        end
+
+        -- now start reload
+        if self.ShotgunReload then
+            self:StartShotgunReload()
+        else
+            self:StartMagazineReload()
+        end
+    end
 end
 
 --================ SECONDARY ATTACK PIPELINE ================--
