@@ -6,7 +6,7 @@ end
 game.AddParticles( "particles/rockettrail.pcf" )
 PrecacheParticleSystem("rockettrail_RocketJumper")
 
-DEFINE_BASECLASS("mw_rocket_proj")
+DEFINE_BASECLASS("mb_rocket_proj")
 
 ENT.PrintName = "MW Rocket Jumper"
 ENT.TrailEffect = "rockettrail_RocketJumper"

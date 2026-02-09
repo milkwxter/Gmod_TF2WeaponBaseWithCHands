@@ -10,7 +10,7 @@ SWEP.Spawnable = true
 SWEP.IconOverride = "weapons/mb_scattergun.png"
 SWEP.Slot = 3
 
-SWEP.ViewModel = "models/v_scattergun_scout.mdl"
+SWEP.ViewModel = "models/scattergun/v_scattergun_scout.mdl"
 SWEP.WorldModel = "models/weapons/c_models/c_scattergun.mdl"
 
 SWEP.HandOffset_Pos = Vector(6, -1, -2) -- forward, right, up

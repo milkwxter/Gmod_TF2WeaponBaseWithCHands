@@ -9,7 +9,7 @@ SWEP.SubCatType = { "Scout" }
 SWEP.Spawnable = true
 SWEP.IconOverride = "weapons/mb_bat.png"
 
-SWEP.ViewModel = "models/v_bat_scout.mdl"
+SWEP.ViewModel = "models/bat/v_bat_scout.mdl"
 SWEP.WorldModel = "models/weapons/c_models/c_bat.mdl"
 
 SWEP.HandOffset_Pos = Vector(3, -1, -1) -- forward, right, up
