@@ -71,9 +71,9 @@ SWEP.Caseless = false
 SWEP.PlayAttackAnim = true
 SWEP.TracerName = "milkwater_tracer"
 
-SWEP.Primary.ClipSize = 12
-SWEP.Primary.DefaultClip = 12
-SWEP.Primary.Ammo = "Pistol"
+SWEP.Primary.ClipSize = 100
+SWEP.Primary.DefaultClip = 100
+SWEP.Primary.Ammo = "none"
 
 SWEP.Primary.Automatic = false
 SWEP.Primary.FireDelay = 0.1
@@ -171,6 +171,18 @@ end
 function SWEP:OnRemove()
     self:MW_StopLoopingSound()
 	self:SetZoomed(false)
+end
+
+function SWEP:Equip(owner)
+    if not IsValid(owner) then return end
+
+    -- give ammo equal to 4x clip size
+    local ammoType = self.Primary.Ammo
+    local amount = (self.Primary.ClipSize or 0) * 4
+
+    if ammoType and amount > 0 then
+        owner:GiveAmmo(amount, ammoType, false)
+    end
 end
 
 --================ PREDICTION HELPERS ================--

@@ -26,7 +26,7 @@ SWEP.Caseless = true
 
 SWEP.Primary.ClipSize = 4
 SWEP.Primary.DefaultClip = 4
-SWEP.Primary.Ammo = "Pistol"
+SWEP.Primary.Ammo = "Buckshot"
 
 SWEP.Projectile = true
 SWEP.ProjectileClass = "mb_pipebomb_proj"

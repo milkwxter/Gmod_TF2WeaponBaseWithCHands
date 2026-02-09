@@ -1,2 +1,2 @@
 # Gmod_TF2WeaponBaseWithCHands
-Yeah...
+A TF2 themed weapon pack for Garry's Mod. Includes c_hands for each weapon thanks to my qci script.
