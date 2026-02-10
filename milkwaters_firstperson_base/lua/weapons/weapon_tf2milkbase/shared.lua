@@ -52,7 +52,8 @@ SWEP.AdminSpawnable = true
 SWEP.DrawCrosshair = false
 SWEP.DrawAmmo = false
 
-SWEP.CSMuzzleFlashes = true
+SWEP.CSMuzzleFlashes = false
+SWEP.ViewModelFOV = 55
 
 SWEP.UseHands = true
 SWEP.Base = "weapon_base"
