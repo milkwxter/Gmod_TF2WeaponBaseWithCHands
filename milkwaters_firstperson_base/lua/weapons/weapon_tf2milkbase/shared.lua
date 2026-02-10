@@ -421,12 +421,7 @@ function SWEP:DoMuzzleEffect()
 
 	-- looping
 	if not IsValid(self.MuzzleLoop) then
-		if CLIENT then
-			self:DoMuzzleEffect_Looping()
-		end
-		if game.SinglePlayer() then
-			self:CallOnClient("DoMuzzleEffect_Looping")
-		end
+		self:CallOnClient("DoMuzzleEffect_Looping")
 	end
 end
 
@@ -453,20 +448,29 @@ function SWEP:DoMuzzleEffect_OneShot()
 end
 
 if CLIENT then
-	
-	function SWEP:DoMuzzleEffect_Looping()
-		if IsValid(self.MuzzleLoop) then return end
-		
-		local att = self:LookupAttachment("muzzle")
-		if not att or att <= 0 then att = 1 end
+    function SWEP:DoMuzzleEffect_Looping()
+        if IsValid(self.MuzzleLoop) then return end
 
-		-- attach to the model
-		self.MuzzleLoop = CreateParticleSystem( self.WModel, self.MuzzleEffect, PATTACH_POINT_FOLLOW, att )
-	end
+        local owner = self:GetOwner()
+        if not IsValid(owner) then return end
+
+        local vm = owner:GetViewModel()
+        if not IsValid(vm) then return end
+
+        local att = vm:LookupAttachment("muzzle")
+        if att <= 0 then return end
+
+        -- create a looping particle and store the handle
+        self.MuzzleLoop = CreateParticleSystem(vm, self.MuzzleEffect, PATTACH_POINT_FOLLOW, att)
+
+        if self.MuzzleLoop then
+            self.MuzzleLoop:StartEmission()
+        end
+    end
 
     function SWEP:StopMuzzleEffect()
         if IsValid(self.MuzzleLoop) then
-            self.MuzzleLoop:StopEmission(false, true)
+            self.MuzzleLoop:StopEmission(false, false)
             self.MuzzleLoop = nil
         end
     end
