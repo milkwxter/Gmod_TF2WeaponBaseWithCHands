@@ -9,7 +9,7 @@ SWEP.SubCatType = { "Soldier" }
 SWEP.Spawnable = true
 SWEP.IconOverride = "weapons/mb_shovel.png"
 
-SWEP.ViewModel = "models/v_shovel_soldier.mdl"
+SWEP.ViewModel = "models/shovel/v_shovel_soldier.mdl"
 SWEP.WorldModel = "models/weapons/c_models/c_shovel/c_shovel.mdl"
 
 SWEP.HandOffset_Pos = Vector(3, -1, -1) -- forward, right, up

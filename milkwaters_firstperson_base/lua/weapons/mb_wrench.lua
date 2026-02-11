@@ -9,7 +9,7 @@ SWEP.SubCatType = { "Engineer" }
 SWEP.Spawnable = true
 SWEP.IconOverride = "weapons/mb_wrench.png"
 
-SWEP.ViewModel = "models/v_wrench_engineer.mdl"
+SWEP.ViewModel = "models/wrench/v_wrench_engineer.mdl"
 SWEP.WorldModel = "models/weapons/c_models/c_wrench/c_wrench.mdl"
 
 SWEP.HandOffset_Pos = Vector(3, -1, -1) -- forward, right, up
