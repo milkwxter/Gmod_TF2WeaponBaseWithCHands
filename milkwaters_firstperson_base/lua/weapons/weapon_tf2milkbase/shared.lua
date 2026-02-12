@@ -166,12 +166,21 @@ end
 function SWEP:Holster()
     self:MW_StopLoopingSound()
 	self:SetZoomed(false)
+	
+	-- stop reloads in progress
+	self:SetReloading(false)
+	self.ReloadStage = nil
+	
     return true
 end
 
 function SWEP:OnRemove()
     self:MW_StopLoopingSound()
 	self:SetZoomed(false)
+	
+	-- stop reloads in progress
+	self:SetReloading(false)
+	self.ReloadStage = nil
 end
 
 function SWEP:Equip(owner)

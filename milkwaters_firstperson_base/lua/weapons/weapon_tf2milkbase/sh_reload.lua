@@ -156,6 +156,9 @@ function SWEP:InsertShell()
 	self:SetReloadEndTime(now + dur)
 	
     timer.Simple(dur, function()
+		if not IsValid(self) then return end
+		local owner = self:GetOwner()
+		if not IsValid(owner) then return end
 		if not self:GetReloading() then return end
 		
 		-- actual ammo transfer
