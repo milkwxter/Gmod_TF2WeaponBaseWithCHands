@@ -10,7 +10,8 @@ SWEP.Spawnable = true
 SWEP.IconOverride = "weapons/mb_boxing_gloves.png"
 
 SWEP.ViewModel = "models/boxinggloves/v_boxing_gloves_heavy.mdl"
-SWEP.WorldModel = "models/weapons/w_models/w_boxing_gloves.mdl"
+SWEP.WorldModel = "models/boxinggloves/c_boxing_gloves.mdl"
+SWEP.BoneMergeWorldModel = true
 
 SWEP.HandOffset_Pos = Vector(3, -1, -1) -- forward, right, up
 SWEP.HandOffset_Ang = Angle(0, 0, 180) -- pitch, yaw, roll

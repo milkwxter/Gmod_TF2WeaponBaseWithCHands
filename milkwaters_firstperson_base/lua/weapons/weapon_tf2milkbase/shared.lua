@@ -61,6 +61,7 @@ SWEP.Base = "weapon_base"
 SWEP.WorldModel = "models/props_junk/garbage_milkcarton002a.mdl"
 SWEP.HoldType = "pistol"
 SWEP.PrimaryAnim = ACT_VM_PRIMARYATTACK
+SWEP.BoneMergeWorldModel = false
 
 SWEP.LoopShootingSound = false
 SWEP.SoundShootPrimary = "Weapon_Pistol.Empty"
@@ -167,6 +168,10 @@ function SWEP:Holster()
     self:MW_StopLoopingSound()
 	self:SetZoomed(false)
 	
+    if IsValid(self.WM) then
+        self.WM:Remove()
+    end
+	
 	-- stop reloads in progress
 	self:SetReloading(false)
 	self.ReloadStage = nil
@@ -177,6 +182,10 @@ end
 function SWEP:OnRemove()
     self:MW_StopLoopingSound()
 	self:SetZoomed(false)
+	
+    if IsValid(self.WM) then
+        self.WM:Remove()
+    end
 	
 	-- stop reloads in progress
 	self:SetReloading(false)

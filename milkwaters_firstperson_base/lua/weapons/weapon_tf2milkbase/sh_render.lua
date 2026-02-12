@@ -25,6 +25,14 @@ function SWEP:DrawWorldModel()
         self.WM = ClientsideModel(self.WorldModel, RENDERGROUP_OPAQUE)
         self.WM:SetNoDraw(true)
     end
+	
+	if self.BoneMergeWorldModel then
+		self.WM:SetParent(owner)
+		self.WM:AddEffects(EF_BONEMERGE)
+		self.WM:AddEffects(EF_BONEMERGE_FASTCULL)
+		self.WM:DrawModel()
+		return
+	end
 
     -- get hand bone
     local bone = owner:LookupBone("ValveBiped.Bip01_R_Hand")
